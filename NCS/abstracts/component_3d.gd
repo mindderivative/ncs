@@ -29,4 +29,4 @@ func _physics_process(delta : float) -> void:
 
 @abstract func update(delta : float) -> void
 
-@abstract func physics_update(deltat : float) -> void
+@abstract func physics_update(delta : float) -> void
