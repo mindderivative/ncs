@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="NCS"
+run/main_scene="uid://bri55ob3dblie"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://d4bxl6ha21h6w"]
+
+[ext_resource type="Shader" uid="uid://d22r2rgnbt4py" path="res://test/fade_hex_grid.gdshader" id="1_r6n4o"]
+[ext_resource type="Texture2D" uid="uid://rcx55w2bsvcg" path="res://test/tile-hex-single.png" id="2_qjjb0"]
+[ext_resource type="Script" uid="uid://dpo2qx5kbkft7" path="res://test/hightlight_tile.gd" id="3_qjjb0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjjb0"]
+shader = ExtResource("1_r6n4o")
+shader_parameter/center_position = Vector2(0, 0)
+shader_parameter/intensity = 1.09999998565814
+shader_parameter/fade_radius = 500.0
+shader_parameter/fade_width = 100.0
+
+[sub_resource type="Animation" id="Animation_r6n4o"]
+resource_name = "Pulse"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/intensity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.00000004517093, 1.09999998565814]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
+}
+
+[sub_resource type="Animation" id="Animation_qjjb0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/intensity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.09999998565814]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.1, 1.1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ve43d"]
+_data = {
+&"Pulse": SubResource("Animation_r6n4o"),
+&"RESET": SubResource("Animation_qjjb0")
+}
+
+[node name="Sprite2D" type="Sprite2D" unique_id=268718933 node_paths=PackedStringArray("animation_player")]
+material = SubResource("ShaderMaterial_qjjb0")
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_qjjb0")
+region_rect = Rect2(896, 0, 128, 148)
+script = ExtResource("3_qjjb0")
+animation_player = NodePath("AnimationPlayer")
+animations = Array[String](["Pulse"])
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1251396801]
+libraries/ = SubResource("AnimationLibrary_ve43d")
