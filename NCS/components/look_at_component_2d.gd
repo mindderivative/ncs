@@ -21,12 +21,12 @@ func start() -> void:
 	call_deferred("get_entity")
 	call_deferred("get_emitters")
 
-func update(delta : float) -> void:
+func update(_delta : float) -> void:
 		
 	Entity.look_at(target)
 
 
-func physics_update(deltat : float) -> void:
+func physics_update(_deltat : float) -> void:
 	# Put physics process logic here
 	pass
 #endregion

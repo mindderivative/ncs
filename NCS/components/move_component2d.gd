@@ -21,14 +21,14 @@ func start() -> void:
 	if data.path.size() > 0:
 		setup_next_segment()
 
-func update(delta : float) -> void:
+func update(_delta : float) -> void:
 	# Put process logic here
 	if target_index >= data.path.size():
 		return
 	
 	move_to_target(data.path[target_index])
 
-func physics_update(delta : float) -> void:
+func physics_update(_delta : float) -> void:
 	# Put physics process logic here
 	pass
 #endregion
