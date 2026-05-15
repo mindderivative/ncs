@@ -13,7 +13,7 @@ var y : float = 0.0
 
 #region Processing Functions
 func start() -> void:
-	# put ready logic here
+	
 	pass
 
 func update(delta : float) -> void:
@@ -29,7 +29,7 @@ func update(delta : float) -> void:
 	x = target.global_position.x + cos(data.start_angle + current_angle) * data.distance
 	y = target.global_position.y + sin(data.start_angle + current_angle) * data.distance
 	
-	Entity.global_position = Vector2(x, y)
+	Entity.position = Vector2(x, y)
 
 func physics_update(deltat : float) -> void:
 	# Put physics process logic here

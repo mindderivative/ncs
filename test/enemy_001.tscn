@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://kigt70lj8wpl"]
+
+[ext_resource type="Texture2D" uid="uid://be7311gdycm5h" path="res://test/enemy-001.svg" id="1_vj524"]
+[ext_resource type="Script" uid="uid://dycegmq4waxln" path="res://NCS/components/look_at_component_2d.gd" id="2_grna3"]
+[ext_resource type="Script" uid="uid://dxd7cmagml63" path="res://NCS/data/look_at_component_2d_data.gd" id="3_50lka"]
+[ext_resource type="Script" uid="uid://bvsh6qcd5gr78" path="res://NCS/components/manage_groups_component.gd" id="3_m5feh"]
+[ext_resource type="Script" uid="uid://dtu3ogioc0fb6" path="res://NCS/data/manage_groups_component_data.gd" id="4_50lka"]
+[ext_resource type="Script" uid="uid://d0dxiiq1ase57" path="res://NCS/components/move_component2d.gd" id="6_spvl7"]
+[ext_resource type="Script" uid="uid://dm32n8d6xorg8" path="res://NCS/data/move_component_2d_data.gd" id="7_ttl7e"]
+
+[sub_resource type="Resource" id="Resource_ttl7e"]
+script = ExtResource("3_50lka")
+entity_group = "Player"
+metadata/_custom_type_script = "uid://dxd7cmagml63"
+
+[sub_resource type="Resource" id="Resource_spvl7"]
+script = ExtResource("4_50lka")
+groups = Dictionary[String, bool]({
+"Enemy": true,
+"Player": false
+})
+metadata/_custom_type_script = "uid://dtu3ogioc0fb6"
+
+[sub_resource type="Resource" id="Resource_u5p78"]
+script = ExtResource("7_ttl7e")
+path = Array[Vector2]([Vector2(0, 0), Vector2(-826, 440), Vector2(0, 0)])
+metadata/_custom_type_script = "uid://dm32n8d6xorg8"
+
+[node name="Enemy001" type="Sprite2D" unique_id=1510581821]
+texture = ExtResource("1_vj524")
+
+[node name="LookAtComponent2D" type="Node2D" parent="." unique_id=833501704 node_paths=PackedStringArray("emitters")]
+script = ExtResource("2_grna3")
+data = SubResource("Resource_ttl7e")
+emitters = [NodePath("../MoveComponent2D")]
+metadata/_custom_type_script = "uid://dycegmq4waxln"
+
+[node name="ManageGroupsComponent" type="Node" parent="." unique_id=326528044]
+script = ExtResource("3_m5feh")
+data = SubResource("Resource_spvl7")
+metadata/_custom_type_script = "uid://bvsh6qcd5gr78"
+
+[node name="MoveComponent2D" type="Node2D" parent="." unique_id=1731721773]
+script = ExtResource("6_spvl7")
+data = SubResource("Resource_u5p78")
+metadata/_custom_type_script = "uid://d0dxiiq1ase57"
