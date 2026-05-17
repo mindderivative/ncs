@@ -29,7 +29,7 @@ func update(delta : float) -> void:
 		spawn_object()
 		_time_since_last_spawn = 0.0
 
-func physics_update(deltat : float) -> void:
+func physics_update(_deltat : float) -> void:
 	# Put physics process logic here
 	pass
 #endregion

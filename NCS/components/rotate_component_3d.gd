@@ -21,7 +21,7 @@ func update(delta : float) -> void:
 	else:
 		Entity.rotate_y(-r)
 
-func physics_update(deltat : float) -> void:
+func physics_update(_deltat : float) -> void:
 	# Put physics process logic here
 	pass
 #endregion

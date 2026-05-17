@@ -32,7 +32,7 @@ func update(delta : float) -> void:
 	
 	Entity.global_position = Vector3(x, target.global_position.y, z)
 
-func physics_update(deltat : float) -> void:
+func physics_update(_deltat : float) -> void:
 	# Put physics process logic here
 	pass
 #endregion
