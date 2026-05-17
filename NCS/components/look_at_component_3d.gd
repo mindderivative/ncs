@@ -1,7 +1,7 @@
 class_name LookAtComponent3D extends Component3D
 
 #region Export Variables
-#@export var data : Data # Base component data, change to component specific data type
+## The Node3D to face. The Entity will continuously rotate to look at this target.
 @export var target : Node3D
 #endregion
 
@@ -10,17 +10,22 @@ class_name LookAtComponent3D extends Component3D
 #endregion
 
 #region Processing Functions
+## Validates that [member target] is assigned.
 func start() -> void:
-	# put ready logic here
-	pass
+	if target == null:
+		push_error("LookAtComponent3D: No valid target to look at.")
+		return
 
+
+## Rotates [member Component3D.Entity] to face [member target] each frame using [method Node3D.look_at].
 func update(_delta : float) -> void:
-	if !target:
-		push_error("No valid target to look at.")
+	if target == null:
 		return
 	
 	Entity.look_at(target.global_position, Vector3.UP)
 
+
+## Unused lifecycle hook.
 func physics_update(_deltat : float) -> void:
 	# Put physics process logic here
 	pass

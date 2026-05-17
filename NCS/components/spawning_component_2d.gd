@@ -2,67 +2,77 @@ class_name SpawningComponent2D extends Component2D
 
 #region Export Variables
 
-@export var data : SpawningComponentData # Base component data, change to component specific data type
-@export var object_pool : ObjectPoolingComponent # instead of a direct reference maybe a signal?
+## Component-specific data configuration for spawn behavior, interval, count, and randomization.
+@export var data : SpawningComponentData
+## Reference to the ObjectPoolingComponent that provides recycled objects for spawning.
+@export var object_pool : ObjectPoolingComponent
 #endregion
 
 #region Variables
-var x : float = 0.0
-var y : float = 0.0
 var _time_since_last_spawn : float = 0.0
 var _cooldown_timer : float = 0.0
 #endregion
 
 #region Processing Functions
+## Validates that [member data] and [member object_pool] are assigned.
 func start() -> void:
-	if !object_pool:
+	if data == null:
+		push_error("SpawningComponent2D: No data assigned.")
+		return
+
+	if object_pool == null:
 		push_error("SpawningComponent2D: No object pool assigned.")
 
+
+## Ticks cooldown and auto-spawns at [member SpawningComponentData.spawn_interval] when interval is set.
 func update(delta : float) -> void:
-	# Handle Cooldown
-	if _cooldown_timer > 0:
+	if data == null or object_pool == null:
+		return
+
+	if _cooldown_timer > 0.0:
 		_cooldown_timer -= delta
-	
-	# Handle Automated Interval Spawning
+
+	if data.spawn_interval <= 0.0:
+		return
+
 	_time_since_last_spawn += delta
-	if data.spawn_interval > 0 and _time_since_last_spawn >= data.spawn_interval:
+	if _time_since_last_spawn >= data.spawn_interval:
 		spawn_object()
 		_time_since_last_spawn = 0.0
 
+## Unused lifecycle hook.
 func physics_update(_deltat : float) -> void:
 	# Put physics process logic here
 	pass
 #endregion
 
 #region Component Functions
+## Spawns a batch of objects from [member object_pool] at [member Component2D.Entity]'s position, with optional random region offset.
 func spawn_object() -> void:
-	# Prevent spawning if on cooldown or missing dependencies
-	if _cooldown_timer > 0 or !object_pool or !data:
+	if _cooldown_timer > 0.0 or data == null or object_pool == null:
 		return
-	
+
 	_cooldown_timer = data.spawn_cooldown
-	
-	for i in data.spawn_count:
+
+	for _i : int in data.spawn_count:
 		var obj : Node2D = object_pool.get_object()
-		if !obj: continue
-		
-		# Determine spawn position
-		var spawn_pos = Entity.global_position
+		if obj == null:
+			continue
+
+		var spawn_pos : Vector2 = Entity.global_position
 		if data.use_random_region:
-			var random_offset = Vector2(
+			spawn_pos += Vector2(
 				randf_range(data.spawn_region.position.x, data.spawn_region.end.x),
 				randf_range(data.spawn_region.position.y, data.spawn_region.end.y)
 			)
-			spawn_pos += random_offset
 
 		obj.global_position = spawn_pos
-		
-		# Reset object state
 		obj.set_process(true)
 		obj.set_physics_process(true)
 		obj.show()
 
 # Trigger for external signals or manual calls
+## Manually triggers a spawn; respects the active cooldown timer.
 func trigger_spawn() -> void:
 	spawn_object()
 #endregion
